@@ -164,7 +164,16 @@ void Tensor::debug() const {
 }
 
 bool Tensor::isContiguous() const {
-    TO_BE_IMPLEMENTED();
+    size_t Rank=this->ndim();
+    const auto&Cur_strides=this->strides();
+    const auto&Shapes=this->shape();
+    size_t accumulate_stride=1;
+    if(Rank==0) return true;
+    for(size_t i=Rank;i>0;--i){
+        size_t index=i-1;
+        if(accumulate_stride!=Cur_strides[index]) return false;
+        accumulate_stride*=Shapes[index];
+    }
     return true;
 }
 
